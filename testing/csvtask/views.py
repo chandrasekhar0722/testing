@@ -3,7 +3,7 @@ import csv
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from csvtask.service import service
-csv_filepathname="/usr/local/testing/task/EQ120214.CSV"
+csv_filepathname="/usr/local/testing/task/EQ140214.CSV"
 
 def import_db(request):
    
@@ -11,11 +11,22 @@ def import_db(request):
     for row in dataReader:
 	if row[0] != 'SC_CODE': # Ignore the header row, import everything else
 		data = Company()
-		data.code = row[0]
+		data.sc_code = row[0]
 		data.companyname = row[1]
-		data.sc_group = row[2]
-		data.sc_type = row[3]
 		data.save()
+		data2 = Companydetail()
+		data2.company = data
+		data2.open = row[4]
+		data2.high = row[5]
+		data2.low = row[6]
+		data2.close = row[7]
+		data2.last = row[8]
+		data2.prevclose = row[9]
+		data2.no_trades = row[10]
+		data2.no_of_shirs = row[11]
+		data2.net_turnov = row[12]
+		data2.date = row[14]
+		data2.save()
     return HttpResponseRedirect('/')
 
 def stockdata(request):
