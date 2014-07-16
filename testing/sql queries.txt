@@ -1,0 +1,25 @@
+working
+
+select cd.open,cd.high,cd.low,cd.close,cd.last from companydetail cd
+join company cp on cp.code = cd.sc_name_id where cp.companyname = "ABB LTD." group by cd.sc_name_id 
+ORDER BY cd.date DESC
+
+single date
+-------------------
+select cd.sc_name,cp.companyname,cd.open,cd.high,cd.low,cd.close,cd.last from companydetail cd
+join company cp on cp.code = cd.sc_name where cp.companyname = "ABB LTD." and cd.date='14-02-2014'
+
+between two dates
+----------------
+select cd.date,cd.sc_name_id,cp.companyname,cd.open,cd.high,cd.low,cd.close,cd.last from companydetail cd
+join company cp on cp.code = cd.sc_name_id where cp.companyname = "ABB LTD." and cd.date between '1-02-2014' and '20-02-2014'
+
+
+select * from companydetail where data="12-02-2014"
+----------------------
+join in django
+------------
+a = Company.objects.filter(companyname='ABB LTD.').values()
+>>> for i in a:
+...     b = Companydetail.objects.filter(date='14-02-2014',sc_name=i['code']).values()
+...     print b
